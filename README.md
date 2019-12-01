@@ -1,6 +1,12 @@
-# Aoc19
+# Advent of Code 2019
 
-**TODO: Add description**
+[https://adventofcode.com/2019](https://adventofcode.com/2019)
+
+## Running puzzles
+
+```sh
+iex -S mix test.watch
+```
 
 ## Installation
 
