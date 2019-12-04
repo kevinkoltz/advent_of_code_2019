@@ -3,6 +3,7 @@ defmodule Aoc19Test do
   doctest Aoc19
   doctest RocketModule
   doctest Intcode
+  doctest Wire
 
   test "day 1" do
     masses = read_puzzle_input("day_01_input.txt", delim: "\n", formatter: &Decimal.new/1)
@@ -25,6 +26,14 @@ defmodule Aoc19Test do
 
     # part 2
     assert Intcode.complete_gravity_assist(program) == 4559
+  end
+
+  test "day 3" do
+    [wire_1, wire_2] =
+      read_puzzle_input("day_03_input.txt", delim: "\n", formatter: &String.trim/1)
+
+    # part 1
+    assert Wire.find_intersection_distance(wire_1, wire_2) == 403
   end
 
   @doc """
