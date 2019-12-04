@@ -92,25 +92,16 @@ defmodule Wire do
 
   defp map_wire([], points, _), do: points
 
-  defp map_wire([segment | t], points, last_pos) do
-    new_pos = last_pos |> move(segment)
+  defp map_wire([{direction, count} | t], points, last_pos) do
+    new_pos = last_pos |> Coordinate.move(direction, count)
 
     new_points =
       last_pos
-      |> points_between(new_pos)
+      |> Coordinate.points_between(new_pos)
       |> Enum.reduce(points, fn point, acc -> MapSet.put(acc, point) end)
 
     map_wire(t, new_points, new_pos)
   end
-
-  defp points_between({x1, y1}, {x2, y2}) do
-    for x <- x1..x2, y <- y1..y2, do: {x, y}
-  end
-
-  defp move({x, y}, {:up, count}), do: {x, y + count}
-  defp move({x, y}, {:right, count}), do: {x + count, y}
-  defp move({x, y}, {:down, count}), do: {x, y - count}
-  defp move({x, y}, {:left, count}), do: {x - count, y}
 
   @doc """
   Decodes a wire from a string.
