@@ -22,6 +22,9 @@ defmodule Aoc19Test do
     # part 1
     assert [position_0 | _] = Intcode.restore(program, 12, 2)
     assert position_0 == 5_434_663
+
+    # part 2
+    assert Intcode.complete_gravity_assist(program) == 4559
   end
 
   @doc """
