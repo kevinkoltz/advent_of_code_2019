@@ -28,15 +28,48 @@ defmodule Password do
   end
 
   def valid?(password) when is_integer(password) do
+    rules = [
+      &has_two_adjacent_digits?/1,
+      &(not has_decreasing_digits?(&1))
+    ]
+
     digits = Integer.digits(password)
 
-    has_adjacent_digits?(digits) &&
-      not has_decreasing_digits?(digits)
+    Enum.all?(rules, & &1.(digits))
   end
 
-  defp has_adjacent_digits?([_]), do: false
-  defp has_adjacent_digits?([a, a | _]), do: true
-  defp has_adjacent_digits?([_, b | t]), do: has_adjacent_digits?([b | t])
+  @doc """
+  --- Part Two ---
+  An Elf just remembered one more important detail: the two adjacent matching digits are not part of
+  a larger group of matching digits.
+
+  Given this additional criterion, but still ignoring the range rule, the following are now true:
+
+  112233 meets these criteria because the digits never decrease and all repeated digits are exactly
+  two digits long.
+
+      iex> 112233 |> Integer.digits() |> Password.has_two_adjacent_digits?()
+      true
+
+  123444 no longer meets the criteria (the repeated 44 is part of a larger group of 444).
+
+      iex> 123444 |> Integer.digits() |> Password.has_two_adjacent_digits?()
+      false
+
+  111122 meets the criteria (even though 1 is repeated more than twice, it still contains a double
+  22).
+
+      iex> 111122 |> Integer.digits() |> Password.has_two_adjacent_digits?()
+      true
+
+  How many different passwords within the range given in your puzzle input meet all of the criteria?
+  """
+  def has_two_adjacent_digits?([a, a, b, _, _, _]) when a != b, do: true
+  def has_two_adjacent_digits?([a, b, b, c, _, _]) when a != b and b != c, do: true
+  def has_two_adjacent_digits?([_, a, b, b, c, _]) when a != b and b != c, do: true
+  def has_two_adjacent_digits?([_, _, a, b, b, c]) when a != b and b != c, do: true
+  def has_two_adjacent_digits?([_, _, _, a, b, b]) when a != b, do: true
+  def has_two_adjacent_digits?(_), do: false
 
   defp has_decreasing_digits?(digits), do: digits != Enum.sort(digits)
 end

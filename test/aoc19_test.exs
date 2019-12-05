@@ -4,6 +4,7 @@ defmodule Aoc19Test do
   doctest RocketModule
   doctest Intcode
   doctest Wire
+  doctest Password
 
   test "day 1" do
     masses = read_puzzle_input("day_01_input.txt", delim: "\n", formatter: &Decimal.new/1)
@@ -41,8 +42,11 @@ defmodule Aoc19Test do
 
     passwords = Password.valid_passwords_in_range(input_range)
 
-    # part 1
-    assert length(passwords) == 1729
+    # part 1 (part 2 changes result)
+    # assert length(passwords) == 1729
+
+    # part 2
+    assert length(passwords) == 1172
   end
 
   @doc """
