@@ -36,6 +36,15 @@ defmodule Aoc19Test do
     assert Wire.find_intersection_distance(wire_1, wire_2) == 403
   end
 
+  test "day 4" do
+    input_range = 153_517..630_395
+
+    passwords = Password.valid_passwords_in_range(input_range)
+
+    # part 1
+    assert length(passwords) == 1729
+  end
+
   @doc """
   Reads puzzle input from a text file.
   """
